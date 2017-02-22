@@ -47,22 +47,12 @@ app.get('/', function(req, res,next) {
     res.sendFile(__dirname + '/public/index.html');
 });
 
-io.on('connection', function(client) {  
+io.on('connection', function(socket) {  
     var socketId = socket.id;
     var clientIp = socket.request.connection.remoteAddress;
 
     console.log('Cliente ip '+clientIp);
     console.log('connection :', socket.request.connection._peername);
-
-    client.on('join', function(data) {
-        console.log(data);
-    });
-
-    client.on('messages', function(data) {
-           console.log(data);
-           client.emit('broad', data);
-           client.broadcast.emit('broad',data);
-    });
 
 });
 
@@ -107,11 +97,11 @@ setInterval(function() {
     Panel_led(led_state, State);
   }
 
-  if(ventilador_derecho == "0" && ((current_minute >= 0 && current_minute < 15) || (current_minute >= 30 &&$
+  if(ventilador_derecho == "0" && ((current_minute >= 0 && current_minute < 15) || (current_minute >= 30 && current_minute < 45))){
     ventilacion = "HIGH";
     console.log("Ventilador HIGH");
     Sistema_ventilacion(ventilacion);
-  }else if(ventilador_derecho == "1" && ((current_minute >= 15 && current_minute < 30) || (current_minute >$
+  }else if(ventilador_derecho == "1" && ((current_minute >= 15 && current_minute < 30) || (current_minute >= 45 && current_minute < 60))){ 
     ventilacion = "LOW";
      console.log("Ventilador LOW");
     Sistema_ventilacion(ventilacion);

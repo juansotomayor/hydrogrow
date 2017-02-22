@@ -1,0 +1,20 @@
+{
+  "name": "hydrogrow",
+  "version": "0.0.1",
+  "description": "Proyecto Hydrogrow Machine",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Juan Sotomayor Chacon",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.1",
+    "johnny-five": "^0.10.6",
+    "jquery": "^3.1.1",
+    "mysql": "2.12.0",
+    "rpi-gpio": "0.7.0",
+    "serialport": "3.1.2",
+    "socket.io": "^1.7.3"
+  }
+}

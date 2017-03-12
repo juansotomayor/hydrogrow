@@ -58,7 +58,7 @@ io.on('connection', function(socket) {
     console.log('Cliente ip '+clientIp);
     console.log('connection :', socket.request.connection._peername);
 
-    socket.on('door', function(data){
+    socket.on('puerta', function(data){
       if(data == 'open'){
         console.log("Abrir puerta");
         port.write("*Door*OFF-");
@@ -108,7 +108,7 @@ function Controlador(data){
     io.sockets.emit('LDR_superior',  LDR_superior);
     io.sockets.emit('ventilador_derecho',ventilador_derecho);
     io.sockets.emit('ventilador_izquierdo', ventilador_izquierdo);
-    io.sockets.emit('puerta ', puerta);
+    io.sockets.emit('puerta', puerta);
 
 }
 setInterval(function() {

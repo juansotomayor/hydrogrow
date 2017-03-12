@@ -62,8 +62,8 @@
                         <td>Puerta</td>
                         <td>
                             <div class="can-toggle demo-rebrand-1 red">
-                                <input id="puerta" type="checkbox">
-                                <label for="puerta">
+                                <input id="control_puerta" type="checkbox">
+                                <label for="control_puerta">
                                     <div class="can-toggle__switch" data-checked="Abrir" data-unchecked="Cerrar"></div>
                                 </label>
                             </div>
@@ -99,7 +99,7 @@
                     </tr>
                     <tr>
                         <td>Puerta</td>
-                        <td class="data" id="door"> </td>
+                        <td class="data" id="puerta"> </td>
                     </tr>
                 </table>
                 
@@ -158,16 +158,18 @@
                 }
                 
             })
-            $('#puerta').click(function (event) {
+            $('#control_puerta').click(function (event) {
                 if (this.checked) {
-                    socket.emit('door', 'open');
+                    socket.emit('puerta', 'open');
                 }else{
-                    socket.emit('door', 'close');
+                    socket.emit('puerta', 'close');
                 }
                 
             })
 
-
+            socket.on('puerta', function(message) {
+                document.getElementById("puerta").innerHTML = message;                
+            })
             
             socket.on('temperatura', function(message) {
                 document.getElementById("temperatura").innerHTML = message+" °";
@@ -190,10 +192,7 @@
 	        socket.on('ventilador_izquierdo', function(message) {
                 document.getElementById("ventilador_izquierdo").innerHTML = message;
             })
-	        socket.on('puerta', function(message) {
-                document.getElementById("door").innerHTML = message;
-                
-            })
+	        
 
         </script>
     </body>

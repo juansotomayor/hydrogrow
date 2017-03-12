@@ -7,28 +7,114 @@
     </head>
  
     <body>
-        <h1>Hydrogrow</h1>
-
-        <p><input type="button" value="Poke the server" id="poke" /></p>
-
-        Temperatura<div id="temperatura"> </div>
-	Humedad<div id="humedad"> </div>
-	pH<div id="pH"> </div>
-	LDR inferior<div id="LDR_inferior"> </div>
-	LDR superior<div id="LDR_superior"> </div>
-	Ventilador derecho<div id="ventilador_derecho"> </div>
-	Ventilador izquierdo<div id="ventilador_izquierdo"> </div>
-
-	<script src="/jquery/dist/jquery.js"></script>
+        
+        <center>
+            <h1>Hydrogrow</h1>
+            <div id="contenedor_1">
+                
+                <table>
+                    <tr>
+                        <td>Modo Iluminación</td>
+                        <td>
+                            <div class="can-toggle demo-rebrand-1 blue">
+                                <input id="modo_iluminacion" type="checkbox">
+                                <label for="modo_iluminacion">
+                                    <div class="can-toggle__switch" data-checked="Automatico" data-unchecked="Manual"></div>
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Iluminación</td>
+                        <td>
+                            <div class="can-toggle demo-rebrand-1 red">
+                                <input id="iluminacion" type="checkbox">
+                                <label for="iluminacion">
+                                    <div class="can-toggle__switch" data-checked="Encendido" data-unchecked="Apagado"></div>
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Modo ventilación</td>
+                        <td>
+                            <!--<input type="button" value="Automatico" id="ventilacion_automatico" /><input type="button" value="Manual" id="ventilacion_manual" />-->
+                            <div class="can-toggle demo-rebrand-1 blue">
+                                <input id="modo_ventilacion" type="checkbox">
+                                <label for="modo_ventilacion">
+                                    <div class="can-toggle__switch" data-checked="Automatico" data-unchecked="Manual"></div>
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Ventilación</td>
+                        <td>
+                            <div class="can-toggle demo-rebrand-1 red">
+                                <input id="ventilacion" type="checkbox">
+                                <label for="ventilacion">
+                                    <div class="can-toggle__switch" data-checked="Encendido" data-unchecked="Apagado"></div>
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Puerta</td>
+                        <td>
+                            <div class="can-toggle demo-rebrand-1 red">
+                                <input id="puerta" type="checkbox">
+                                <label for="puerta">
+                                    <div class="can-toggle__switch" data-checked="Abrir" data-unchecked="Cerrar"></div>
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Temperatura</td>
+                        <td class="data" id="temperatura"> </td>
+                    </tr>
+                    <tr>
+                        <td>Humedad</td>
+                        <td class="data" id="humedad"> </td>
+                    </tr>
+                    <tr>
+                        <td>pH</td>
+                        <td class="data" id="pH"> </td>
+                    </tr>
+                    <tr>
+                        <td>LDR inferior</td>
+                        <td class="data" id="LDR_inferior"> </td>
+                    </tr>
+                    <tr>
+                        <td>LDR superior</td>
+                        <td class="data" id="LDR_superior"> </td>
+                    </tr>
+                    <tr>
+                        <td>Ventilador derecho</td>
+                        <td class="data" id="ventilador_derecho"> </td>
+                    </tr>
+                    <tr>
+                        <td>Ventilador izquierdo</td>
+                        <td class="data" id="ventilador_izquierdo"> </td>
+                    </tr>
+                    <tr>
+                        <td>Puerta</td>
+                        <td class="data" id="door"> </td>
+                    </tr>
+                </table>
+                
+           </div>
+        </center>
+	    <script src="/jquery/dist/jquery.js"></script>
         <script src="/socket.io/socket.io.js"></script>
         <script>
             var socket = io.connect('http://192.168.0.180:4200');
 
             // The visitor is asked for their username...
-            var username = prompt('What\'s your username?');
+            //var username = prompt('What\'s your username?');
             
             // It's sent with the signal "little_newbie" (to differentiate it from "message")
-            socket.emit('little_newbie', username);
+            //socket.emit('little_newbie', username);
 
             // A dialog box is displayed when the server sends us a "message"
             socket.on('message', function(message) {
@@ -36,33 +122,78 @@
             })
 
             // When the button is clicked, a "message" is sent to the server
-            $('#poke').click(function () {
-                socket.emit('message', 'Hi server, how are you?');
+           
+            $('#modo_iluminacion').click(function (event) {
+                if (this.checked) {
+                    socket.emit('tipo_iluminacion', 'Automatico');
+                    document.getElementById("iluminacion").disabled = true;
+                }else{
+                    socket.emit('tipo_iluminacion', 'Manual');
+                    document.getElementById("iluminacion").disabled = false;
+                }
             })
+            $('#iluminacion').click(function (event) {
+                if (this.checked) {
+                    socket.emit('iluminacion', 'HIGH');
+                }else{
+                    socket.emit('iluminacion', 'LOW');
+                }
+                
+            })
+            $('#modo_ventilacion').click(function (event) {
+                if (this.checked) {
+                    socket.emit('tipo_ventilacion', 'Automatico');
+                    document.getElementById("ventilacion").disabled = true;
+                }else{
+                    socket.emit('tipo_ventilacion', 'Manual');
+                    document.getElementById("ventilacion").disabled = false;
+                }
+                
+            })
+            $('#ventilacion').click(function (event) {
+                if (this.checked) {
+                    socket.emit('ventilacion', 'HIGH');
+                }else{
+                    socket.emit('ventilacion', 'LOW');
+                }
+                
+            })
+            $('#puerta').click(function (event) {
+                if (this.checked) {
+                    socket.emit('door', 'open');
+                }else{
+                    socket.emit('door', 'close');
+                }
+                
+            })
+
+
             
             socket.on('temperatura', function(message) {
-                document.getElementById("temperatura").innerHTML = message;
-            })
-             
+                document.getElementById("temperatura").innerHTML = message+" °";
+            })             
             socket.on('humedad', function(message) {
-                document.getElementById("humedad").innerHTML = message;
+                document.getElementById("humedad").innerHTML = message+" %";
             })
             socket.on('pH', function(message) {
                 document.getElementById("pH").innerHTML = message;
             })
-	    socket.on('LDR_inferior', function(message) {
+	        socket.on('LDR_inferior', function(message) {
                 document.getElementById("LDR_inferior").innerHTML = message;
             })
-	    socket.on('LDR_superior', function(message) {
+	        socket.on('LDR_superior', function(message) {
                 document.getElementById("LDR_superior").innerHTML = message;
             })
-	    socket.on('ventilador_derecho', function(message) {
+	        socket.on('ventilador_derecho', function(message) {
                 document.getElementById("ventilador_derecho").innerHTML = message;
             })
-	    socket.on('ventilador_izquierdo', function(message) {
+	        socket.on('ventilador_izquierdo', function(message) {
                 document.getElementById("ventilador_izquierdo").innerHTML = message;
             })
-
+	        socket.on('puerta', function(message) {
+                document.getElementById("door").innerHTML = message;
+                
+            })
 
         </script>
     </body>
